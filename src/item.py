@@ -28,6 +28,10 @@ class Item:
         return self.__name
 
     def __add__(self, other):
+        """
+        Проверки, чтобы нельзя было сложить Phone или Item
+        с экземплярами не Phone или Item классов.
+        """
         if isinstance(other, self.__class__):
             return self.quantity + other.quantity
         raise Exception
@@ -45,6 +49,9 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
+        """
+        класс-метод, инициализирующий экземпляры класса Item данными из файла src/items.csv
+        """
         with open('src/items.csv', encoding='CP1251') as csvfile:
             reader = csv.DictReader(csvfile)
             for item in reader:
@@ -52,6 +59,9 @@ class Item:
 
     @staticmethod
     def string_to_number(item):
+        """
+        Статический метод, возвращающий число из числа-строки
+        """
         return int(float(item))
 
     def calculate_total_price(self) -> float:
