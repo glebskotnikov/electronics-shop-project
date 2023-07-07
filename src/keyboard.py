@@ -13,10 +13,9 @@ class MixinLog:
     def change_lang(self):
         if self.__language == 'EN':
             self.__language = 'RU'
-            return self
         else:
             self.__language = 'EN'
-            return self
+        return self
 
 
 class Keyboard(Item, MixinLog):
