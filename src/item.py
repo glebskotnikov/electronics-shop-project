@@ -1,4 +1,10 @@
 import csv
+import os
+
+
+class InstantiateCSVError(Exception):
+    def __init__(self, message):
+        print(message)
 
 
 class Item:
@@ -49,14 +55,19 @@ class Item:
             self.__name = name[:10]
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, file_csv='../src/items.csv'):
         """
         класс-метод, инициализирующий экземпляры класса Item данными из файла src/items.csv
         """
-        with open('src/items.csv', encoding='CP1251') as csvfile:
+        if not os.path.exists(file_csv):
+            raise FileNotFoundError('Отсутствует файл item.csv')
+        with open(file_csv, encoding='CP1251') as csvfile:
             reader = csv.DictReader(csvfile)
             for item in reader:
+                if len(item) < 3:
+                    raise InstantiateCSVError('Файл .csv поврежден')
                 cls.all.append(cls(item['name'], item['price'], item['quantity']))
+
 
     @staticmethod
     def string_to_number(item):
